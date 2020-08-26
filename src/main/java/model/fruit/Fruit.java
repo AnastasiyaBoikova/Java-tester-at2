@@ -5,8 +5,8 @@ import java.util.List;
 
 public  class Fruit {
 
-    private float weight;
-    private int number;
+    protected float weight;
+   // private int number;
 
 
     public float getWeight() {

@@ -1,57 +1,63 @@
 package model.box;
 
-import model.fruit.Apple;
 import model.fruit.Fruit;
-import model.fruit.Orange;
-
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Box<F extends Fruit> {
 
 
-    private List<Apple> appleBox = new ArrayList<>();
-    private List<Orange> orangeBox = new ArrayList<>();
-    private List<Fruit> box = new ArrayList<>();
+    private ArrayList<F> items = new ArrayList<F>();
 
+    public Box(F... fruits) {
+        for (F fruit : fruits) {
+            this.items.add(fruit);
+        }
+    }
 
-    public boolean compare(List<?> box2) {
+    public F getByIndex(int index) {
+        return items.get(index);
+    }
 
+    public float getCount() {
+        return items.size();
+    }
 
-        return box.equals(box2);
-
+    public boolean compare(Box<?> box) {
+        float countThis = this.getCount();
+        float countBox = box.getCount();
+        float weightThis = this.getWeight();
+        float weightBox = box.getWeight();
+        if (countThis == countBox && weightThis == weightBox) {
+            return true;
+        }
+        return false;
     }
 
     public float getWeight() {
-
         float sum = 0;
-        for (Fruit fruit : box)  {
+        for (Fruit fruit : items) {
             sum += fruit.getWeight();
-            return fruit.getWeight();
         }
-
         return sum;
     }
 
-    public List<?> add(String nameFruit, int number) {
-
-        if (nameFruit == "apple") {
-
-            for (int i = 0; i < number; i++) {
-                appleBox.add(new Apple());
-            }
-            return appleBox;
-
-        } else if (nameFruit == "orange") {
-            for (int i = 0; i < number; i++) {
-                orangeBox.add(new Orange());
-            }
-            return orangeBox;
-
+    public float sprinkle(Box<F> next) {
+        for (F aItem : items) {
+            next.add(aItem);
         }
 
-        throw new RuntimeException ("неизвестный фрукт");
+//        while (items.size() > 0) {
+//            next.add(items.remove(0));
+//        }
+
+        items.clear();
+        return next.getCount();
+    }
+
+
+    public void add(F fruit) {
+        items.add(fruit);
     }
 }
 
